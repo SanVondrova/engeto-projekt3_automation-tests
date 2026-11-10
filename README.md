@@ -1,17 +1,15 @@
-# Projekt 3 - Automatizované testy pomocí Playwright
+# Projekt 3 – Automatizované testy pomocí Playwright
 
-# Autor
+## Autor
 
 Sandra Vondrová
 
 ## Popis projektu
 
-Projekt obsahuje automatizované testy vytvořené pomocí frameworku Playwright a knihovny Pytest.
+Projekt obsahuje automatizované testy webu [engeto.cz](https://engeto.cz) napsané v Pythonu
+pomocí frameworku Playwright a pluginu pytest-playwright.
 
-Testovaná stránka:
-https://engeto.cz
-
-## Pužité technologie
+## Použité technologie
 
 - Python 3
 - Pytest
@@ -19,33 +17,53 @@ https://engeto.cz
 - pytest-playwright
 
 ## Testovací scénáře
-### TC-001 Ověření dostupnosti stránky Testing Akademie
 
-Test ověřuje správné přesměrování stránky Testing Akademie na stránku Testování softwaru.
+Všechny testy jsou v souboru `test_engeto.py`.
 
-### TC-002 Ověření dostupnosti stránky termíny
+### TC-001 Přesměrování na stránku Testing Akademie
 
-Test kontroluje dostupnost stránky s termíny kurzů.
+Původní adresa `/testing-akademie/` přesměruje na `/testovani-softwaru/`.
+Test ověřuje stavový kód 200, výslednou adresu a nadpis stránky „Testing Akademie“.
 
-### TC-003 Ověření dostupnosti vybraných stránek
-Parametrizovaný test kontrolující dostupnost více strnek webu Engeto:
+### TC-002 Dostupnost stránky Termíny
 
-### TC-004 Ověření zobrazení odkazu Python Akademie
+Test ověřuje, že se stránka `/terminy/` načte se stavovým kódem 200
+a má titulek i nadpis „Termíny kurzů“.
 
-Test ověřuje viditelnost odkazu Python Akkademie na stránce Termíny.
+### TC-003 Dostupnost vybraných stránek
+
+Parametrizovaný test, který u každé stránky ověří stavový kód 200 a očekávaný titulek:
+
+- `/` – úvodní stránka
+- `/testovani-softwaru/` – Testing Akademie
+- `/python-akademie/` – Python Akademie
+
+### TC-004 Otevření detailu termínu
+
+Test na stránce `/terminy/` odmítne cookies, klikne na první vypsaný termín a ověří,
+že se otevřela adresa, na kterou karta odkazuje, a že titulek stránky obsahuje název kurzu.
+Test nezávisí na konkrétním kurzu, stačí, aby byl na webu vypsaný alespoň jeden termín.
 
 ## Instalace
 
-Instalace potřebných knihoven:
+```bash
+pip install -r requirements.txt
+playwright install chromium
+```
 
-pip install pytest,
-pip install playwright,
-pip isntall pytest-playwright,
-python -m playwright install
+## Spuštění testů
 
-## Spouštění testů
-
+```bash
 pytest -v
+```
+
+Spuštění s viditelným oknem prohlížeče:
+
+```bash
+pytest -v --headed
+```
 
 ## Výsledek
-Při poslendím spuštění byly všechny testy úspěšně dokončeny: 6 passed
+
+Soubor obsahuje 4 testovací funkce, díky parametrizaci se spustí 6 testů.
+Očekávaný výstup: `6 passed`.
